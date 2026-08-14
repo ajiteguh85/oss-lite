@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ne-simulator
+  namespace: oss-lite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ne-simulator
+  template:
+    metadata:
+      labels:
+        app: ne-simulator
+    spec:
+      containers:
+        - name: simulator
+          image: ne-simulator:0.1.0
+          imagePullPolicy: Never
+          env:
+            - name: COLLECTOR_URL
+              value: http://oss-collector:8000
+            - name: INTERVAL_SECONDS
+              value: "15"
+          resources:
+            requests: { memory: "64Mi", cpu: "50m" }
+            limits:   { memory: "128Mi", cpu: "200m" }
